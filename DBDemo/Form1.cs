@@ -45,21 +45,24 @@ namespace DBDemo
         private void button2_Click(object sender, EventArgs e)
         {
             //label1.Text=listBox1.SelectedItem.ToString();
-            string str = listBox1.SelectedItem.ToString();
-            string[] strArray = str.Split(',');
+            if (listBox1.SelectedItem != null)
+            {
+                string str = listBox1.SelectedItem.ToString();
+                string[] strArray = str.Split(',');
 
-            //var linqQuery = from entry in strArray
-            //                where strArray.I
-            //                select number;
+                //var linqQuery = from entry in strArray
+                //                where strArray.I
+                //                select number;
 
 
-            label1.Text = strArray[0];
+                label1.Text = strArray[0];
 
-            label2.Text = (checkBox1.Checked) ? strArray[1] : "";
-            label3.Text = (checkBox2.Checked) ? strArray[2] : "";
-            label4.Text = (checkBox3.Checked) ? strArray[3] : "";
-            label5.Text = (checkBox4.Checked) ? strArray[4] : "";
-            label6.Text = (checkBox5.Checked) ? strArray[5] : "";
+                label2.Text = (checkBox1.Checked) ? strArray[1] : "";
+                label3.Text = (checkBox2.Checked) ? strArray[2] : "";
+                label4.Text = (checkBox3.Checked) ? strArray[3] : "";
+                label5.Text = (checkBox4.Checked) ? strArray[4] : "";
+                label6.Text = (checkBox5.Checked) ? strArray[5] : "";
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -78,7 +81,7 @@ namespace DBDemo
             dataGridView2.RowHeadersVisible = false;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
 
             MySqlCommandBuilder commandBuilderPerson = new MySqlCommandBuilder(this.personenTableAdapter.Adapter);          
@@ -90,6 +93,35 @@ namespace DBDemo
         {
             MySqlCommandBuilder commandBuilderBuch = new MySqlCommandBuilder(this.buecherTableAdapter.Adapter);
             this.buecherTableAdapter.Adapter.Update(this.db_buecherDataSet.Tables[0]);
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            foreach (DataGridViewCell val in dataGridView1.SelectedCells)
+            {
+                label9.Text = val.Value.ToString();
+                label11.Text = (val.RowIndex+1)+"";
+            }
+            
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            foreach (DataGridViewCell val in dataGridView2.SelectedCells)
+            {
+                label10.Text = val.Value.ToString();
+                makeIt(val.RowIndex);
+            }
+        }
+
+        private void makeIt(int rowIndex)
+        {
+            string str = "";
+            foreach (DataGridViewCell val in dataGridView2.Rows[rowIndex].Cells)
+            {
+                str += val.Value.ToString()+" ";
+            }
+            listBox2.Items.Add(str);
         }
     }
 }
